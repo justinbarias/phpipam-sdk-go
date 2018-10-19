@@ -134,6 +134,18 @@ func (c *Controller) GetFirstFreeAddress(id int) (out string, err error) {
 	return
 }
 
+// GetFirstFreeSubnet GETs the first free subnet given the specified subnet mask
+// it as a string. This can be used to automatically determine the next address
+// you should use. If there are no more available addresses, the string will be
+// blank.
+//
+// Note that marking a subnet as used does not prevent this function from
+// returning data.
+func (c *Controller) GetFirstFreeSubnet(id int, mask int) (out string, err error) {
+	err = c.SendRequest("GET", fmt.Sprintf("/subnets/%d/first_subnet/%d/", id, mask), &struct{}{}, &out)
+	return
+}
+
 // GetAddressesInSubnet GETs the IP addresses for a specific subnet, via a
 // supplied subnet ID.
 func (c *Controller) GetAddressesInSubnet(id int) (out []addresses.Address, err error) {
